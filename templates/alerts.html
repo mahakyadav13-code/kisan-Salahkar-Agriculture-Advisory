@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}SMS Alerts — Kisan Salahkar{% endblock %}
+
+{% block content %}
+<section class="hero hero-sm hero-alerts">
+    <div class="hero-bg-img" style="background-image:url('https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=1400&h=400&fit=crop');"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <div class="breadcrumb"><a href="/dashboard"><i class="fa-solid fa-house"></i> Home</a> <span class="sep">/</span> <span>Alerts</span></div>
+        <div class="page-header-icon"><i class="fa-solid fa-bell"></i></div>
+        <h1><span data-i18n="alertTitle">SMS &amp; WhatsApp Alerts</span></h1>
+        <p data-i18n="alertSub">Get weather, pest warnings &amp; market price alerts on your phone</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="crop-layout">
+        <!-- Subscribe Form -->
+        <div class="crop-form-card">
+            <h2><i class="fa-solid fa-mobile-screen"></i> <span data-i18n="alertSubscribe">Subscribe to Alerts</span></h2>
+            <form id="alertForm">
+                <div class="input-group">
+                    <label data-i18n="alertPhone">Mobile Number</label>
+                    <div style="display:flex;gap:.5rem;align-items:center;">
+                        <span style="font-weight:600;font-size:1rem;">+91</span>
+                        <input type="tel" id="alertPhone" placeholder="9876543210" maxlength="10" pattern="[0-9]{10}" required style="flex:1;">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label data-i18n="alertType">Alert Type</label>
+                    <select id="alertType">
+                        <option value="all">All Alerts (सभी अलर्ट)</option>
+                        <option value="weather">Weather Only (सिर्फ मौसम)</option>
+                        <option value="pest">Pest Warnings (कीट चेतावनी)</option>
+                        <option value="market">Market Prices (बाज़ार भाव)</option>
+                        <option value="scheme">Scheme Updates (योजना अपडेट)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label data-i18n="alertCity">Your City/District</label>
+                    <input type="text" id="alertCity" placeholder="e.g. Lucknow" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">
+                    <i class="fa-solid fa-bell"></i> <span data-i18n="alertSubBtn">Subscribe</span>
+                </button>
+            </form>
+
+            <div class="alert-info-box">
+                <h3><i class="fa-solid fa-info-circle"></i> <span data-i18n="alertInfoTitle">What alerts will you get?</span></h3>
+                <ul class="alert-info-list">
+                    <li><i class="fa-solid fa-cloud-bolt"></i> <span data-i18n="alertInfo1">Daily weather forecast for your area</span></li>
+                    <li><i class="fa-solid fa-bugs"></i> <span data-i18n="alertInfo2">Pest & disease outbreak warnings</span></li>
+                    <li><i class="fa-solid fa-chart-line"></i> <span data-i18n="alertInfo3">Weekly mandi price updates</span></li>
+                    <li><i class="fa-solid fa-landmark"></i> <span data-i18n="alertInfo4">New government scheme announcements</span></li>
+                    <li><i class="fa-solid fa-seedling"></i> <span data-i18n="alertInfo5">Seasonal crop advisories</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Active Subscriptions -->
+        <div class="crop-result-card">
+            <h2><i class="fa-solid fa-list-check"></i> <span data-i18n="alertActive">Your Active Subscriptions</span></h2>
+            <div id="activeAlerts"></div>
+
+            <div class="whatsapp-box">
+                <h3><i class="fa-brands fa-whatsapp"></i> <span data-i18n="alertWhatsApp">WhatsApp Alerts</span></h3>
+                <p data-i18n="alertWhatsAppDesc">For WhatsApp alerts, save our number and send "JOIN KISAN":</p>
+                <div class="whatsapp-number">
+                    <i class="fa-brands fa-whatsapp"></i> +91-XXXXX-XXXXX
+                </div>
+                <p class="text-muted" data-i18n="alertWhatsAppNote">WhatsApp alerts are coming soon. SMS alerts are active now.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

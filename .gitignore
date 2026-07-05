@@ -1,0 +1,20 @@
+# Models
+model/
+*.pkl
+*.h5
+*.keras
+*.joblib
+
+# Database
+users.db
+
+# Python
+__pycache__/
+*.pyc
+
+# Virtual Environment
+.venv/
+venv/
+
+# Environment Variables
+.env

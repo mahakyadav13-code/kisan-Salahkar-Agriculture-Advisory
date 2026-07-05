@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% block title %}Crop Recommendation — Kisan Salahkar{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<section class="hero hero-sm hero-crop">
+    <div class="hero-bg-img" style="background-image:url('https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=1400&h=400&fit=crop');"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <div class="breadcrumb"><a href="/dashboard"><i class="fa-solid fa-house"></i> Home</a> <span class="sep">/</span> <span>Crop Advice</span></div>
+        <div class="page-header-icon"><i class="fa-solid fa-seedling"></i></div>
+        <h1><span data-i18n="cropTitle">Crop Recommendation</span></h1>
+        <p data-i18n="cropSubtitle">Enter your soil &amp; weather conditions to get the best crop advice</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="crop-layout">
+
+        <!-- Form -->
+        <div class="crop-form-card">
+            <h2><i class="fa-solid fa-flask"></i> <span data-i18n="cropFormTitle">Soil &amp; Climate Data</span></h2>
+            <form id="cropForm">
+                <!-- State Selection (Feature 9: Multi-state) -->
+                <div class="input-group full-width" style="margin-bottom:1rem;">
+                    <label for="stateSelect"><i class="fa-solid fa-map-location-dot"></i> <span data-i18n="lblState">Your State</span></label>
+                    <select id="stateSelect">
+                        <option value="">-- Select State (Optional) --</option>
+                        {% for s in states %}
+                        <option value="{{ s }}">{{ s }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="input-group full-width" style="margin-bottom:1rem;">
+                    <label for="districtSelect"><i class="fa-solid fa-location-dot"></i> District</label>
+                    <select id="districtSelect" disabled>
+                        <option value="">-- Select District (Optional) --</option>
+                    </select>
+                </div>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label for="nitrogen"><span data-i18n="lblN">Nitrogen (N)</span> <small data-i18n="unitKgHa">kg/ha</small></label>
+                        <input type="number" id="nitrogen" min="0" max="200" step="1" placeholder="e.g. 90" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="phosphorus"><span data-i18n="lblP">Phosphorus (P)</span> <small data-i18n="unitKgHa">kg/ha</small></label>
+                        <input type="number" id="phosphorus" min="0" max="200" step="1" placeholder="e.g. 45" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="potassium"><span data-i18n="lblK">Potassium (K)</span> <small data-i18n="unitKgHa">kg/ha</small></label>
+                        <input type="number" id="potassium" min="0" max="200" step="1" placeholder="e.g. 40" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="ph"><span data-i18n="lblPH">Soil pH</span></label>
+                        <input type="number" id="ph" min="0" max="14" step="0.1" placeholder="e.g. 6.5" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="temperature"><span data-i18n="lblTemp">Temperature</span> <small data-i18n="unitC">°C</small></label>
+                        <input type="number" id="temperature" min="-10" max="60" step="0.1" placeholder="e.g. 25" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="humidity"><span data-i18n="lblHumidity">Humidity</span> <small data-i18n="unitPct">%</small></label>
+                        <input type="number" id="humidity" min="0" max="100" step="0.1" placeholder="e.g. 70" required>
+                    </div>
+                    <div class="input-group full-width">
+                        <label for="rainfall"><span data-i18n="lblRainfall">Rainfall</span> <small data-i18n="unitMm">mm/season</small></label>
+                        <input type="number" id="rainfall" min="0" max="600" step="0.1" placeholder="e.g. 120" required>
+                    </div>
+                </div>
+                <!-- Auto-fill from IoT sensors -->
+                <button type="button" class="btn-sensor-fill" onclick="autoFillFromSensors()" title="Fill from IoT sensors">
+                    <i class="fa-solid fa-microchip"></i> <span data-i18n="sensorFill">Sensor Fill</span>
+                </button>
+                <!-- Voice input button -->
+                <button type="button" class="btn btn-voice-sm" onclick="voiceFillCropForm()" title="Fill using voice">
+                    <i class="fa-solid fa-microphone"></i> <span data-i18n="voiceFill">Voice Fill</span>
+                </button>
+                <button type="submit" class="btn btn-primary btn-block" id="predictBtn">
+                    <i class="fa-solid fa-magnifying-glass-chart"></i> <span data-i18n="btnPredict">Find Best Crop</span>
+                </button>
+            </form>
+        </div>
+
+        <!-- Results -->
+        <div class="crop-result-card" id="resultCard" style="display:none;">
+            <h2><i class="fa-solid fa-trophy"></i> <span data-i18n="resultTitle">Recommendation</span></h2>
+
+            <div id="topCrop" class="top-crop"></div>
+
+            <h3 data-i18n="topMatches">Top 5 Matches</h3>
+            <div id="cropBars" class="crop-bars"></div>
+
+            <canvas id="cropChart" height="260"></canvas>
+
+            <div id="cropTip" class="crop-tip"></div>
+
+            <!-- Disease Info for recommended crop -->
+            <div id="cropDiseases" class="crop-diseases" style="display:none;">
+                <h3><i class="fa-solid fa-virus"></i> <span data-i18n="commonDiseases">Common Diseases</span></h3>
+                <div id="diseaseList"></div>
+            </div>
+
+            <!-- MSP Info -->
+            <div id="cropMSP" class="crop-msp" style="display:none;"></div>
+
+            <!-- TTS Button -->
+            <button class="btn btn-voice-sm" id="speakResult" style="margin-top:1rem;" title="Listen to recommendation">
+                <i class="fa-solid fa-volume-high"></i> <span data-i18n="listenBtn">Listen</span>
+            </button>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

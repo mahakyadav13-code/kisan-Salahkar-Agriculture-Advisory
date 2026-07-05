@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Weather Forecast — Kisan Salahkar{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<section class="hero hero-sm hero-weather">
+    <div class="hero-bg-img" style="background-image:url('https://images.unsplash.com/photo-1504386106331-3e4e71712b38?w=1400&h=400&fit=crop');"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <div class="breadcrumb"><a href="/dashboard"><i class="fa-solid fa-house"></i> Home</a> <span class="sep">/</span> <span>Weather</span></div>
+        <div class="page-header-icon"><i class="fa-solid fa-cloud-sun"></i></div>
+        <h1><span data-i18n="weatherTitle">Weather Forecast</span></h1>
+        <p data-i18n="weatherSub">Check current weather &amp; 3-day forecast for your area</p>
+    </div>
+</section>
+
+<section class="section">
+
+    <!-- Search -->
+    <div class="weather-search">
+        <form id="weatherForm" class="weather-search-form">
+            <div class="input-group">
+                <i class="fa-solid fa-location-dot"></i>
+                <input type="text" id="cityInput" data-i18n="phCity" placeholder="Enter city name (e.g. Lucknow)" required>
+            </div>
+            <button type="submit" class="btn btn-primary" id="weatherBtn">
+                <i class="fa-solid fa-magnifying-glass"></i> <span data-i18n="btnSearch">Search</span>
+            </button>
+        </form>
+    </div>
+
+    <!-- Loading -->
+    <div id="weatherLoading" class="loading-box" style="display:none;">
+        <div class="spinner"></div>
+        <p data-i18n="fetching">Fetching weather data…</p>
+    </div>
+
+    <!-- Current Weather -->
+    <div id="weatherResult" style="display:none;">
+        <div class="weather-current">
+            <div class="weather-main">
+                <div class="weather-icon" id="weatherIcon"><i class="fa-solid fa-sun"></i></div>
+                <div class="weather-temp">
+                    <h2 id="tempVal">--°C</h2>
+                    <p id="weatherDesc">--</p>
+                </div>
+            </div>
+            <div class="weather-details">
+                <div><i class="fa-solid fa-temperature-half"></i> <span data-i18n="feelsLike">Feels Like</span> <span id="feelsLike">--°C</span></div>
+                <div><i class="fa-solid fa-droplet"></i> <span data-i18n="humidityLabel">Humidity</span> <span id="humidityVal">--%</span></div>
+                <div><i class="fa-solid fa-wind"></i> <span data-i18n="windLabel">Wind</span> <span id="windVal">-- km/h</span></div>
+                <div><i class="fa-solid fa-eye"></i> <span data-i18n="visLabel">Visibility</span> <span id="visVal">-- km</span></div>
+                <div><i class="fa-solid fa-gauge-high"></i> <span data-i18n="pressureLabel">Pressure</span> <span id="pressureVal">-- mb</span></div>
+                <div><i class="fa-solid fa-sun"></i> <span data-i18n="uvLabel">UV Index</span> <span id="uvVal">--</span></div>
+            </div>
+        </div>
+
+        <!-- Forecast -->
+        <h2 class="section-title" data-i18n="forecastTitle">3-Day Forecast</h2>
+        <div class="forecast-grid" id="forecastGrid"></div>
+    </div>
+
+</section>
+{% endblock %}

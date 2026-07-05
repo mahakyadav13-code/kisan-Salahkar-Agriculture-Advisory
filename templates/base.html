@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Kisan Salahkar{% endblock %}</title>
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#1e3a5f">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font-Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+    <!-- App CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block head %}{% endblock %}
+</head>
+<body>
+
+    <!-- ───── Navbar ───── -->
+    <nav class="navbar" id="navbar">
+        <a href="{{ url_for('dashboard') }}" class="nav-brand">
+            <i class="fa-solid fa-wheat-awn nav-brand-icon"></i>
+            <div class="nav-brand-text">
+                <span class="nav-brand-main" data-i18n="navBrand">Kisan Salahkar</span>
+                <span class="nav-brand-sub">किसान सलाहकार</span>
+            </div>
+        </a>
+
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <div class="nav-links" id="navLinks">
+            {% block nav %}
+            <a href="{{ url_for('dashboard') }}" class="nav-link-item"><i class="fa-solid fa-house"></i> <span data-i18n="navHome">Home</span></a>
+            <a href="{{ url_for('crop') }}" class="nav-link-item"><i class="fa-solid fa-seedling"></i> <span data-i18n="navCrop">Crop Advice</span></a>
+            <a href="{{ url_for('weather') }}" class="nav-link-item"><i class="fa-solid fa-cloud-sun"></i> <span data-i18n="navWeather">Weather</span></a>
+            <a href="{{ url_for('mandi') }}" class="nav-link-item"><i class="fa-solid fa-store"></i> <span data-i18n="navMandi">Mandi</span></a>
+
+            <!-- More dropdown -->
+            <div class="nav-dropdown">
+                <button class="nav-link-item nav-dropdown-toggle" type="button">
+                    <i class="fa-solid fa-grid-2"></i> <span data-i18n="navMore">More</span> <i class="fa-solid fa-chevron-down nav-chev"></i>
+                </button>
+                <div class="nav-dropdown-menu">
+                    <a href="{{ url_for('disease') }}"><i class="fa-solid fa-virus"></i> <span data-i18n="navDisease">Disease Detection</span></a>
+                    <a href="{{ url_for('schemes') }}"><i class="fa-solid fa-landmark"></i> <span data-i18n="navSchemes">Govt Schemes</span></a>
+                    <a href="{{ url_for('soil') }}"><i class="fa-solid fa-flask-vial"></i> <span data-i18n="navSoil">Soil Test</span></a>
+                    <a href="{{ url_for('forum') }}"><i class="fa-solid fa-comments"></i> <span data-i18n="navForum">Forum</span></a>
+                    <a href="{{ url_for('alerts') }}"><i class="fa-solid fa-bell"></i> <span data-i18n="navAlerts">Alerts</span></a>
+                    <a href="{{ url_for('iot_dashboard') }}"><i class="fa-solid fa-microchip"></i> <span data-i18n="navIoT">IoT Sensors</span></a>
+                    <a href="{{ url_for('info') }}"><i class="fa-solid fa-book-open"></i> <span data-i18n="navInfo">Agri Info</span></a>
+                </div>
+            </div>
+
+            <a href="{{ url_for('logout') }}" class="nav-link-item btn-nav-logout"><i class="fa-solid fa-right-from-bracket"></i> <span data-i18n="navLogout">Logout</span></a>
+            {% endblock %}
+
+            <!-- Language Toggle -->
+            <button class="lang-toggle" title="Switch language">
+                <i class="fa-solid fa-language"></i>
+                <span class="lang-toggle-text">हिंदी</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ───── Toast container ───── -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- ───── Page content ───── -->
+    {% block content %}{% endblock %}
+
+    <!-- ───── Footer ───── -->
+    <footer class="footer">
+        <div class="footer-main">
+            <div class="footer-brand">
+                <h3><i class="fa-solid fa-wheat-awn"></i> <span data-i18n="navBrand">Kisan Salahkar</span></h3>
+                <p class="footer-brand-hindi">किसान सलाहकार — स्मार्ट कृषि सलाह मंच</p>
+                <p data-i18n="footerDesc">AI-powered Smart Agriculture Advisory Platform empowering Indian farmers with real-time crop recommendations, weather alerts, mandi prices, and expert guidance in Hindi &amp; English.</p>
+            </div>
+            <div class="footer-links">
+                <h4 data-i18n="footerQuickLinks">Quick Links</h4>
+                <a href="{{ url_for('crop') }}"><i class="fa-solid fa-seedling"></i> Crop Advice</a>
+                <a href="{{ url_for('weather') }}"><i class="fa-solid fa-cloud-sun"></i> Weather</a>
+                <a href="{{ url_for('mandi') }}"><i class="fa-solid fa-store"></i> Mandi Prices</a>
+                <a href="{{ url_for('schemes') }}"><i class="fa-solid fa-landmark"></i> Schemes</a>
+                <a href="{{ url_for('forum') }}"><i class="fa-solid fa-comments"></i> Forum</a>
+            </div>
+            <div class="footer-dev">
+                <h4 data-i18n="footerDeveloper">Developer</h4>
+                <p><strong style="color:#fff;">Mahak Yadav</strong></p>
+                <p><i class="fa-solid fa-graduation-cap"></i> IILM University (CS'27)</p>
+                <p><a href="tel:8882147499"><i class="fa-solid fa-phone"></i> 8882147499</a></p>
+                <p><a href="mailto:mahak.yadav.cs27@iilm.edu"><i class="fa-solid fa-envelope"></i> mahak.yadav.cs27@iilm.edu</a></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-bottom-inner">
+                <span><i class="fa-solid fa-wheat-awn" style="color:var(--accent)"></i> Kisan Salahkar &copy; 2025</span>
+                <span>Built with <i class="fa-solid fa-heart"></i> by <strong>Mahak Yadav</strong> for Indian Farmers</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- PWA Service Worker -->
+    <script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+    }
+    </script>
+    <!-- User defaults for auto-fill -->
+    <script>
+    window.USER_DEFAULTS = {
+        location: "{{ session.get('user', {}).get('location', '') }}",
+        state: "{{ session.get('user', {}).get('state', '') }}"
+    };
+    </script>
+    <!-- i18n must load before main.js -->
+    <script src="{{ url_for('static', filename='js/i18n.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

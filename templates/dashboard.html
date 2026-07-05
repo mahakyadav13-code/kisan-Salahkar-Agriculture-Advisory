@@ -1,0 +1,316 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — Kisan Salahkar{% endblock %}
+
+{% block content %}
+
+<!-- ── Full-width Image Banner Slideshow ── -->
+<section class="home-banner-slider" id="bannerSlider">
+    <div class="banner-slides">
+        <div class="banner-slide active">
+            <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=1400&h=420&fit=crop&crop=center" alt="Golden wheat fields at sunrise">
+            <div class="banner-slide-overlay"></div>
+            <div class="banner-slide-content">
+                <span class="banner-tag"><i class="fa-solid fa-wheat-awn"></i> Smart Agriculture</span>
+                <h2>AI-Powered Crop Recommendations</h2>
+                <p>Get personalized crop advice based on your soil, weather &amp; location data</p>
+                <a href="/crop" class="btn btn-primary"><i class="fa-solid fa-seedling"></i> Get Started</a>
+            </div>
+        </div>
+        <div class="banner-slide">
+            <img src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=1400&h=420&fit=crop" alt="Lush green farm landscape">
+            <div class="banner-slide-overlay"></div>
+            <div class="banner-slide-content">
+                <span class="banner-tag"><i class="fa-solid fa-cloud-sun-rain"></i> Live Updates</span>
+                <h2>Real-Time Weather &amp; Mandi Prices</h2>
+                <p>Stay informed with accurate weather forecasts and latest market rates</p>
+                <a href="/weather" class="btn btn-secondary"><i class="fa-solid fa-cloud-bolt"></i> Check Weather</a>
+            </div>
+        </div>
+        <div class="banner-slide">
+            <img src="https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=1400&h=420&fit=crop" alt="Farmer in rice paddy field">
+            <div class="banner-slide-overlay"></div>
+            <div class="banner-slide-content">
+                <span class="banner-tag"><i class="fa-solid fa-landmark"></i> Government Schemes</span>
+                <h2>Check Your Eligibility for PM-KISAN &amp; More</h2>
+                <p>Explore PM-KISAN, PMFBY, Kisan Credit Card and other schemes</p>
+                <a href="/schemes" class="btn btn-primary"><i class="fa-solid fa-landmark"></i> View Schemes</a>
+            </div>
+        </div>
+    </div>
+    <button class="banner-arrow banner-prev" onclick="slideBanner(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+    <button class="banner-arrow banner-next" onclick="slideBanner(1)"><i class="fa-solid fa-chevron-right"></i></button>
+    <div class="banner-dots" id="bannerDots">
+        <span class="banner-dot active" onclick="goToSlide(0)"></span>
+        <span class="banner-dot" onclick="goToSlide(1)"></span>
+        <span class="banner-dot" onclick="goToSlide(2)"></span>
+    </div>
+</section>
+
+<!-- ── Quick Info Strip Banners ── -->
+<section class="home-info-strip">
+    <div class="info-strip-inner">
+        <div class="info-strip-card">
+            <img src="https://images.unsplash.com/photo-1592982537447-6f2a6a0c7c18?w=120&h=80&fit=crop" alt="Crops" class="info-strip-img">
+            <div>
+                <strong>23+ Crops</strong>
+                <span>AI Predictions</span>
+            </div>
+        </div>
+        <div class="info-strip-card">
+            <img src="https://images.unsplash.com/photo-1504386106331-3e4e71712b38?w=120&h=80&fit=crop" alt="Weather" class="info-strip-img">
+            <div>
+                <strong>Live Weather</strong>
+                <span>3-Day Forecast</span>
+            </div>
+        </div>
+        <div class="info-strip-card">
+            <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=120&h=80&fit=crop" alt="Mandi" class="info-strip-img">
+            <div>
+                <strong>15+ Mandis</strong>
+                <span>Live Prices</span>
+            </div>
+        </div>
+        <div class="info-strip-card">
+            <img src="https://images.unsplash.com/photo-1589923188651-268a9765e432?w=120&h=80&fit=crop" alt="Schemes" class="info-strip-img">
+            <div>
+                <strong>8 Schemes</strong>
+                <span>Govt Benefits</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ── Compact Welcome Hero ── -->
+<section class="dash-hero">
+    <div class="dash-hero-bg"></div>
+    <div class="dash-hero-inner">
+        <div class="dash-hero-text">
+            <h1><span data-i18n="dashGreet">Namaste</span>, {{ user.name }}! 🙏</h1>
+            <p data-i18n="dashSubtitle">Your smart farming companion — get crop advice, weather updates &amp; more.</p>
+        </div>
+        <button class="btn btn-voice" id="voiceBtn" onclick="startVoiceInput()" title="Speak your query">
+            <i class="fa-solid fa-microphone"></i> <span data-i18n="voiceBtn">Speak</span>
+        </button>
+    </div>
+    <div id="voiceResult" class="voice-result" style="display:none;"></div>
+
+    <!-- Inline Stats Strip -->
+    <div class="dash-stats-strip">
+        <div class="strip-stat"><i class="fa-solid fa-wheat-awn"></i> <strong>23</strong> <span data-i18n="statCrops">Crops</span></div>
+        <div class="strip-stat"><i class="fa-solid fa-brain"></i> <strong>AI</strong> <span data-i18n="statAI">Prediction</span></div>
+        <div class="strip-stat"><i class="fa-solid fa-cloud-bolt"></i> <strong>Live</strong> <span data-i18n="statWeather">Weather</span></div>
+        <div class="strip-stat"><i class="fa-solid fa-store"></i> <strong>15+</strong> <span data-i18n="statMandi">Mandis</span></div>
+        <div class="strip-stat"><i class="fa-solid fa-landmark"></i> <strong>8</strong> <span data-i18n="statSchemes">Schemes</span></div>
+        <div class="strip-stat"><i class="fa-solid fa-hand-holding-heart"></i> <strong>Free</strong> <span data-i18n="statFree">For All</span></div>
+    </div>
+</section>
+
+<!-- ── Live Sensor Mini Widget ── -->
+<div class="section" style="padding-bottom:0;">
+    <div class="sensor-mini-widget" id="sensorMiniWidget">
+        <div class="sensor-mini-header">
+            <span class="iot-pulse pulse-active"></span>
+            <i class="fa-solid fa-microchip"></i>
+            <span data-i18n="dashSensorLive">Live Farm Sensors</span>
+            <a href="/iot" style="margin-left:auto; font-size:.8rem; color:var(--primary);">View Full Dashboard →</a>
+        </div>
+        <div class="sensor-mini-values">
+            <span class="sensor-mini-item mini-temp"><i class="fa-solid fa-temperature-half"></i> <span id="miniTemp">--</span></span>
+            <span class="sensor-mini-item mini-hum"><i class="fa-solid fa-droplet"></i> <span id="miniHumidity">--</span></span>
+            <span class="sensor-mini-item mini-moist"><i class="fa-solid fa-water"></i> <span id="miniMoisture">--</span></span>
+            <span class="sensor-mini-item mini-ph"><i class="fa-solid fa-flask-vial"></i> <span id="miniPH">--</span></span>
+        </div>
+    </div>
+</div>
+
+<!-- ── Primary Tools (3 large cards with images) ── -->
+<section class="section">
+    <h2 class="section-title" data-i18n="dashPrimary">Core Farming Tools</h2>
+    <div class="primary-grid">
+
+        <div class="primary-card" onclick="location.href='/crop'">
+            <div class="primary-card-img">
+                <img src="https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=400&h=250&fit=crop" alt="Crop fields">
+            </div>
+            <div class="primary-card-icon" style="background:linear-gradient(135deg,#1e3a5f,#3b82f6)">
+                <i class="fa-solid fa-seedling"></i>
+            </div>
+            <div class="primary-card-body">
+                <h3 data-i18n="dashCropTitle">Crop Recommendation</h3>
+                <p data-i18n="dashCropDesc">Enter soil &amp; weather data to get AI-powered crop suggestions with confidence scores.</p>
+                <span class="card-link"><span data-i18n="dashCropBtn">Get Advice</span> <i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+        </div>
+
+        <div class="primary-card" onclick="location.href='/weather'">
+            <div class="primary-card-img">
+                <img src="https://images.unsplash.com/photo-1504386106331-3e4e71712b38?w=400&h=250&fit=crop" alt="Weather and agriculture">
+            </div>
+            <div class="primary-card-icon" style="background:linear-gradient(135deg,#1565c0,#42a5f5)">
+                <i class="fa-solid fa-cloud-sun-rain"></i>
+            </div>
+            <div class="primary-card-body">
+                <h3 data-i18n="dashWeatherTitle">Weather Forecast</h3>
+                <p data-i18n="dashWeatherDesc">Check real-time weather updates &amp; 3-day forecasts for your area.</p>
+                <span class="card-link"><span data-i18n="dashWeatherBtn">View Weather</span> <i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+        </div>
+
+        <div class="primary-card" onclick="location.href='/disease'">
+            <div class="primary-card-img">
+                <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&h=250&fit=crop" alt="Plant health">
+            </div>
+            <div class="primary-card-icon" style="background:linear-gradient(135deg,#dc2626,#ef4444)">
+                <i class="fa-solid fa-virus"></i>
+            </div>
+            <div class="primary-card-body">
+                <h3 data-i18n="dashDiseaseTitle">Disease Detection</h3>
+                <p data-i18n="dashDiseaseDesc">Describe symptoms or upload a photo to diagnose crop diseases instantly.</p>
+                <span class="card-link"><span data-i18n="dashDiseaseBtn">Diagnose</span> <i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ── Market & Finance (2 cards side-by-side with images) ── -->
+<section class="section section-alt">
+    <h2 class="section-title" data-i18n="dashMarket">Market &amp; Finance</h2>
+    <div class="duo-grid">
+
+        <div class="duo-card" onclick="location.href='/mandi'">
+            <div class="duo-card-img">
+                <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=300&h=200&fit=crop" alt="Market vegetables">
+            </div>
+            <div class="duo-card-left" style="background:linear-gradient(135deg,#b8860b,#d4a017)">
+                <i class="fa-solid fa-store"></i>
+            </div>
+            <div class="duo-card-right">
+                <h3 data-i18n="dashMandiTitle">Mandi Prices</h3>
+                <p data-i18n="dashMandiDesc">Latest MSP &amp; mandi prices for your crops across India.</p>
+                <span class="card-link"><span data-i18n="dashMandiBtn">Check Prices</span> <i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+        </div>
+
+        <div class="duo-card" onclick="location.href='/schemes'">
+            <div class="duo-card-img">
+                <img src="https://images.unsplash.com/photo-1589923188651-268a9765e432?w=300&h=200&fit=crop" alt="Government building">
+            </div>
+            <div class="duo-card-left" style="background:linear-gradient(135deg,#7c3aed,#a855f7)">
+                <i class="fa-solid fa-landmark"></i>
+            </div>
+            <div class="duo-card-right">
+                <h3 data-i18n="dashSchemeTitle">Govt Schemes</h3>
+                <p data-i18n="dashSchemeDesc">Check your eligibility for PM-KISAN, PMFBY, KCC &amp; more.</p>
+                <span class="card-link"><span data-i18n="dashSchemeBtn">Check Eligibility</span> <i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ── Resources & Community (compact row with images) ── -->
+<section class="section">
+    <h2 class="section-title" data-i18n="dashResources">Resources &amp; Community</h2>
+    <div class="compact-grid">
+
+        <a href="/soil" class="compact-card">
+            <img src="https://images.unsplash.com/photo-1585336261022-680e295ce3fe?w=80&h=80&fit=crop" alt="Soil" class="compact-card-img">
+            <div class="compact-icon" style="color:#b45309"><i class="fa-solid fa-flask-vial"></i></div>
+            <div>
+                <h4 data-i18n="dashSoilTitle">Soil Testing</h4>
+                <p data-i18n="dashSoilShort">Nutrient analysis &amp; recommendations</p>
+            </div>
+            <i class="fa-solid fa-chevron-right compact-arrow"></i>
+        </a>
+
+        <a href="/forum" class="compact-card">
+            <img src="https://images.unsplash.com/photo-1605000797499-95a51c5269ae?w=80&h=80&fit=crop" alt="Farmers" class="compact-card-img">
+            <div class="compact-icon" style="color:#0d9488"><i class="fa-solid fa-comments"></i></div>
+            <div>
+                <h4 data-i18n="dashForumTitle">Community Forum</h4>
+                <p data-i18n="dashForumShort">Connect with fellow farmers</p>
+            </div>
+            <i class="fa-solid fa-chevron-right compact-arrow"></i>
+        </a>
+
+        <a href="/alerts" class="compact-card">
+            <img src="https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=80&h=80&fit=crop" alt="Phone alerts" class="compact-card-img">
+            <div class="compact-icon" style="color:#d97706"><i class="fa-solid fa-bell"></i></div>
+            <div>
+                <h4 data-i18n="dashAlertTitle">SMS Alerts</h4>
+                <p data-i18n="dashAlertShort">Weather &amp; market alerts on phone</p>
+            </div>
+            <i class="fa-solid fa-chevron-right compact-arrow"></i>
+        </a>
+
+        <a href="/info" class="compact-card">
+            <img src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=80&h=80&fit=crop" alt="Agriculture info" class="compact-card-img">
+            <div class="compact-icon" style="color:#475569"><i class="fa-solid fa-book-open"></i></div>
+            <div>
+                <h4 data-i18n="dashInfoTitle">Agriculture Info</h4>
+                <p data-i18n="dashInfoShort">Techniques, tips &amp; resources</p>
+            </div>
+            <i class="fa-solid fa-chevron-right compact-arrow"></i>
+        </a>
+
+    </div>
+</section>
+
+<!-- ── Government Partners Banner ── -->
+<section class="section section-alt govt-partners-section">
+    <h2 class="section-title">Government Portals & Resources</h2>
+    <div class="govt-partners-grid">
+        <a href="https://pmkisan.gov.in" target="_blank" class="govt-partner-card">
+            <div class="govt-partner-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+            <span>PM-KISAN</span>
+        </a>
+        <a href="https://pmfby.gov.in" target="_blank" class="govt-partner-card">
+            <div class="govt-partner-icon"><i class="fa-solid fa-shield-halved"></i></div>
+            <span>PMFBY</span>
+        </a>
+        <a href="https://enam.gov.in" target="_blank" class="govt-partner-card">
+            <div class="govt-partner-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+            <span>e-NAM</span>
+        </a>
+        <a href="https://soilhealth.dac.gov.in" target="_blank" class="govt-partner-card">
+            <div class="govt-partner-icon"><i class="fa-solid fa-flask-vial"></i></div>
+            <span>Soil Health</span>
+        </a>
+        <a href="https://mkisan.gov.in" target="_blank" class="govt-partner-card">
+            <div class="govt-partner-icon"><i class="fa-solid fa-mobile-screen"></i></div>
+            <span>mKisan</span>
+        </a>
+        <a href="https://www.nabard.org" target="_blank" class="govt-partner-card">
+            <div class="govt-partner-icon"><i class="fa-solid fa-building-columns"></i></div>
+            <span>NABARD</span>
+        </a>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Banner Slider
+let currentSlide = 0;
+const slides = document.querySelectorAll('.banner-slide');
+const dots = document.querySelectorAll('.banner-dot');
+let autoSlideTimer;
+
+function showSlide(idx) {
+    slides.forEach(s => s.classList.remove('active'));
+    dots.forEach(d => d.classList.remove('active'));
+    currentSlide = (idx + slides.length) % slides.length;
+    slides[currentSlide].classList.add('active');
+    dots[currentSlide].classList.add('active');
+}
+function slideBanner(dir) { showSlide(currentSlide + dir); resetAutoSlide(); }
+function goToSlide(idx) { showSlide(idx); resetAutoSlide(); }
+function resetAutoSlide() {
+    clearInterval(autoSlideTimer);
+    autoSlideTimer = setInterval(() => showSlide(currentSlide + 1), 5000);
+}
+resetAutoSlide();
+</script>
+{% endblock %}
